@@ -8,7 +8,7 @@
 [general]
 name=ShellDB
 description=Pass selected feature data to the shell
-version=3.1
+version=3.2
 about=Pass selected feature data as arguments to a shell script, optionally remove features as they are processed by the script. Use this plugin when you must manually process lots of features on a map, for example proofing labels or finding elevation errors.
 qgisMinimumVersion=2.0
 class_name=ShellDB
@@ -16,8 +16,8 @@ website=http://spatialfocus.com
 author=Charles Shapiro, Spatial Focus Inc
 email=cshapiro@spatialfocus.com
 homepage=http://spatialfocus.com
-tracker=
-repository=
+tracker=https://github.com/lemgandi/ShellDB/issues
+repository=https://github.com/lemgandi/ShellDB.git
 [author]
 name=Spatial Focus Inc
 email=cshapiro@spatialfocus.com
