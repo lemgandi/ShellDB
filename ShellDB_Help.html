@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <title>ShellDB Documentation</title>
+   <style type="text/css">body {font-famiy:sans-serif;}</style>`
+   <meta name="Description" content="Documentation file for ShellDB">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<BODY>
+<H1>ShellDB Documentation</H1>
+<H2>Pass feature data to the shell</h2>
+
+<p>
+This plugin is designed to pass feature data to your shell ("/bin/sh" on 
+unix or linux machines, "c:\\windows\\system32\\cmd.exe" on windows). Properly
+employed, it can speed and simplify many common QGIS tasks which would 
+otherwise would take lots of typing and mouse clicking.
+</p>
+
+<ul>
+<li><a href="#Configuring">Configuring</a></li>
+<li><a href="#Running">Running</a></li>
+<li><a href="#Troubles">Troubles</a></li>
+</ul>
+
+<a id="Configuring"><h2>Configuring</h2></a>
+
+<p>
+The ShellDB <b>Configure</b> choice is where you tell ShellDB what
+command you wish to run and what feature data you wish to pass to it.
+If you click the <b>Configure</b> menu choice, you'll see the <b>Shell
+Script Plugin Setup</b> panel. Click the <b>Find Script</b> button to
+bring up a file menu where you can select the script to which you wish
+to pass feature data.  You can also type a shell command directly in
+to the <b>Shell Command Line</b> box on this panel. Command lines run
+with their current directory set to the directory portion of the
+command line.  Hence, the command "/home/devel/qmaps/shell/echo_id.sh"
+will run with its current working directory as
+"/home/devel/qmaps/shell".  This makes it easy to reference files
+inside your scripts relative to the location of the script itself. If
+you run a program from the $PATH (such as "echo"), then ShellDB sets
+its current working directory to your ${HOME}.
+</p>
+
+<p>
+Next, you'll pick the vector layer where the features you're working
+with reside. Do this by clicking on its name from the <b>Map
+Layers:</b> list. When you click on this name, the names of the fields
+in its backing store will appear in the <b>Data Fields:</b> list.
+Right now, alas, you can only work with one vector layer at a time in
+this plugin.
+</p>
+
+<p>
+
+Now you're ready to pick the data fields you wish to pass to the
+shell.  When you click on a member of the <b>Data Fields:</b> list,
+you'll see it appear surrounded by "@@" in the <b>Shell Command
+Line</b> field.  You can, of course simply add "@@fieldname@@" to
+the <b>Shell Command Line</b> field if you wish. If you mess this up,
+the template string will simply be passed whole to your shell script
+(e.g. if you specify "@@FOO@@" when you meant "@@BAR@@", your script
+will see "@@FOO@@" rather than the contents of the "BAR" data
+field). If the field you're going to pass to the shell contains spaces
+or other characters special to your shell, such as "$" or "!" in bash
+or sh, you will need to surround the "@@fieldname@@" in the <b>Shell
+Command Line</b> box with single or double-quotes to ensure it is
+properly passed to your shell script.
+</p>
+
+<p>
+If you wish to run a specific command once for each batch of features
+you select, you can use the <b>Find batch level script</b> button to
+fill in the <b>Batch Level Script</b> line in this panel. When you
+select a bunch of fields in QGIS to run a command against, the script
+you select here will run before the commands involving those
+fields. You will see its name first in the <b>edit commands</b> dialog
+box when you hit the <b>run</b> button as explained below.  This is
+very useful if you need to set a parameter (such as an anomaly type)
+for every feature in a group which you have selected, or if you are 
+grouping features by selected batches (as, for example, in a spreadsheet
+where you plan to do further edits on feature data).
+</p>
+<p>
+
+You are now ready to start picking features with the <b>select</b>
+feature of QGIS and passing them to the shell with the <b>Run</b>
+choice in the ShellDB plugin.  You have a few other options before
+doing so, however.  You can use the <b>Find Log File</b> button to
+fill out the <b>Log File</b> text box, if you want ShellDB to keep a
+log of the stdout and stderr streams from your shell script.  This can
+be handy if you have errors in your shell script, although of course
+there's nothing to prevent you from logging things inside your script,
+separate from this facility.  If you check the <b>Delete Processed
+Features</b> radio button, ShellDB will delete features from your map
+after it has processed them; this is very handy if you're doing a lot
+of map features and need to keep track of what you have and have not
+done. This feature will, however, permanently delete features from
+your map (better work on a copy of it then).  If you leave the <b>Edit
+Commands</b> button clicked in ShellDB's configuration, then ShellDB
+will display a text editor to allow you to examine or change the shell
+commands it has created before running them.
+</p>
+<p>
+ShellDB keeps its configuration in your QGIS project, so once you save
+your project you won't have to reconfigure ShellDB when you bring it
+back up. It stores all the file names you choose in the
+configuration panel as <i>relative</i> paths, but uses and displays
+them as <i>absolute</i> paths.  This means that you can put a QGIS
+project and any scripts you use with it on a memory stick and move it
+to another machine and still have them all work correctly, assuming
+that they are all in the directory tree you transferred (and all the
+files <i>they</i> reference are through relative path names as well).
+If you reference scripts on a different disk on a Windows machine, of
+course, this won't work.  If you bring up ShellDB's configuration
+panel and see a relative path, it probably means that ShellDB cannot
+find the file named in that field.  If the configuration dialog
+completely fails ( by giving a python error message), you can manually
+edit the .qgs file to remove or change the &lt;ShellDB&gt; stanza in
+the project xml.
+</p>
+
+<a id="Running"><h2>Running</h2></a>
+<p>
+After you have configured ShellDB, you can create shell commands and
+run them on features you have selected.  To do this, use
+the <b>select</b> tool to select the features you wish to run commands
+against, then click on the <b>Run</b> choice from the ShellDB menu
+choice.  If you have the <b>Edit Commands</b> radio button selected in
+the <b>Configure</b> panel, you'll see an edit box pop up in the
+middle of your screen with the command lines you're about to pass to
+the shell.  You can edit your command lines here, but don't delete
+commands or change their order; doing so will cause internal errors in
+ShellDB.
+</p>
+
+<p>
+After you press <b>OK</b> in the command edit screen, the commands
+you have constructed will run and your map will re-draw, possibly with
+the features you processed deleted. You can then select more features
+and select <b>Run</b> to process more map features through ShellDB.
+</p>
+
+<a id="Troubles"><h2>Troubles</h2></a>
+<h3>Error Messages</h3>
+
+<h4>OS Error</h4>
+<p>
+An operating system error occurred while ShellDB was trying to pass
+command lines to the shell.  The exact error should appear in the
+message box. The most common error is a file not found error, when the
+script is not where ShellDB thinks it is.  This error will halt all
+further processing of command lines.
+</p>
+
+<h4>No features Selected</h4>
+<p>
+You selected to Run the ShellDB plugin but provided no selected
+features for it to process.
+</p>
+
+<h4>Not Configured</h4>
+<p>
+You tried to run the ShellDB plugin before it was configured.  This
+message can also appear if you have deleted the layer for which
+ShellDB is configured.
+</p>
+<h4>Commandline Failure</h4>
+<p>
+One or more of the command lines you ran in this group of selected
+features has returned an errorlevel other than 0.  This doesn't stop
+processing; subsequent commands will run.  If you configured a ShellDB
+log file, you can look in it for additional information on what
+happened. If the <b>Delete Processed Features</b> radio button is set,
+ShellDB will not delete features corresponding to command lines with
+non-0 errorlevels.
+</p>
+
+<h4>Read-only Layer</h4>
+<p>
+Setting a query on a vector layer turns it read-only. ShellDB will
+kvetch if you have selected to <b>Delete Processed Features</b> If you
+lack privilege to write to a shape file or database table, you will
+also get this error.
+</p>
+
+<h4>Missing Layer</h4>
+<p>
+If you remove the layer which ShellDB is working on and then re-add it
+to your project, ShellDB will not be able to find the layer. This is
+because QGis layer names include the date and time they were created,
+in order to you to add two or more layers with the same display name.
+To fix this trouble, re-select the layer (with its new timestamp
+value) which you are working on in the <b>Map Layers:</b> line of
+ShellDB's <b>Configure</b> panel.
+</p>
+
+<h4>Logfile Trouble</h4>
+<p>
+If ShellDB cannot find her log file, she will notify you of this fact
+and continue to march.  Fix the <b>Log File</b> line in
+ShellDB's <b>Configure</b> panel to fix this.
+</p>
+
+<small>
+<pre>
+Copyright 2012 Spatial Focus Incorporated<br>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <a href=http://www.gnu.org/licenses/>
+the GNU License Page</a>.
+</pre>
+</small>
+
+</BODY>
+</HTML>

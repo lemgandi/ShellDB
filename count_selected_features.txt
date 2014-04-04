@@ -1,0 +1,30 @@
+>>> baf=qgis.utils.iface.mapCanvas.layers()
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'builtin_function_or_method' object has no attribute 'layers'
+>>> baf=mapCanvas.layers()
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+NameError: name 'mapCanvas' is not defined
+>>> baf=qgis.utils.iface.mapCanvas().layers()
+>>> print baf
+[<qgis.core.QgsVectorLayer object at 0x27e6408>, <qgis.core.QgsVectorLayer object at 0x27e6490>]
+>>> for kk in baf:
+...    print( baf.name())
+... 
+Traceback (most recent call last):
+  File "<input>", line 2, in <module>
+AttributeError: 'list' object has no attribute 'name'
+>>> for kk in baf:
+...    print baf.id()
+... 
+Traceback (most recent call last):
+  File "<input>", line 2, in <module>
+AttributeError: 'list' object has no attribute 'id'
+>>> print baf[0].id()
+STJ_John_estates20120824102753982
+>>> my_layer=baf[0]
+>>> print my_layer.selectedFeatureCount()
+4
+>>> 
+

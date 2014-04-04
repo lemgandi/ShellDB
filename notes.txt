@@ -1,0 +1,7 @@
+What to Do Next
+
+   * Fix icon on ShellDB Plugins menu choice
+   * Figure out how configure screen will really work
+   * Verify that I can see selected items on a map from the plugin
+   * Add maplayers to shelldb maplayers listbox
+

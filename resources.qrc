@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/plugins/ShellDB" >
+        <file>configIcon.png</file>
+        <file>runIcon.png</file>
+    </qresource>
+</RCC>

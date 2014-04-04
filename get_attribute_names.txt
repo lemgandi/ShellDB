@@ -1,0 +1,25 @@
+foo=qgis.utils.iface.mapCanvas()
+>>> type(foo)
+<class 'qgis.gui.QgsMapCanvas'>
+
+baf=foo.layers()
+>>> print baf[0]
+<qgis.core.QgsVectorLayer object at 0x30a4380>
+>>> print baf[0].pendingFields();
+{0: <qgis.core.QgsField object at 0x30a41e8>, 1: <qgis.core.QgsField object at 0x30a4408>, 2: <qgis.core.QgsField object at 0x30a4490>, 3: <qgis.core.QgsField object at 0x30a4518>, 4: <qgis.core.QgsField object at 0x30a45a0>, 5: <qgis.core.QgsField object at 0x30a4628>}
+>>> print baf[0].pendingFields()[2].name()
+PERIMETER
+>>> print baf[0].pendingFields().values()
+[<qgis.core.QgsField object at 0x30a41e8>, <qgis.core.QgsField object at 0x30a4518>, <qgis.core.QgsField object at 0x30a4408>, <qgis.core.QgsField object at 0x30a4490>, <qgis.core.QgsField object at 0x30a45a0>, <qgis.core.QgsField object at 0x30a4628>]
+>>> for kk in baf[0].pendingFields().values():
+...    print kk.name()
+... 
+gid
+AREA
+PERIMETER
+ESTATE_
+ESTATE_ID
+ESTATE
+>>> 
+
+
