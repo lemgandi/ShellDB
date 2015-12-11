@@ -8,7 +8,7 @@
 [general]
 name=ShellDB
 description=Pass selected feature data to the shell
-version=3.3
+version=3.4
 about=Pass selected feature data as arguments to a shell script, optionally remove features as they are processed by the script. Use this plugin when you must manually process lots of features on a map, for example proofing labels or finding elevation errors.
 qgisMinimumVersion=2.0
 class_name=ShellDB

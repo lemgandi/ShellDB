@@ -61,7 +61,10 @@ class CommandRunner:
         """Check my state for a value. I might need to add code to
         return null/false/etc if the stateName key does not exist 
         in the state dictionary."""
-        return self.state[stateName]
+        retVal = None
+        if stateName in self.state:
+            retVal = self.state[stateName]
+        return retVal
 
         
     def makeCmdLine(self,fieldnames,item):
